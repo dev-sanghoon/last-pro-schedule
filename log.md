@@ -2,7 +2,9 @@
 
 [2023-03-04](#2023-03-04)
 
-### 2023-03-04
+## 2023-03-04
+
+### tsc failure
 
 ```sh
 index.ts(1,8): error TS1259: Module '"/Users/lostin185/Desktop/product/last-pro-schedule/node_modules/@types/express/index"' can only be default-imported using the 'esModuleInterop' flag
