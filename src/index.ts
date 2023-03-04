@@ -14,12 +14,8 @@ app.get("/", (req, res) => {
 
 app.use("/users", users);
 
-app.use((req, res, next) => {
-  next(404);
-});
-
-app.use((statusCode: number, req: express.Request, res: express.Response) => {
-  res.status(statusCode).json({ success: false });
+app.use((req, res) => {
+  res.status(404).json({ success: false, message: "Not found" });
 });
 
 app.listen(process.env.PORT, () => {

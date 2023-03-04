@@ -5,16 +5,19 @@ export function register(req: Request, res: Response, next: NextFunction) {
   try {
     const check = users.findIndex(({ email }) => email === req.body.email);
     if (check >= 0) {
-      return next(400);
+      return res
+        .status(400)
+        .json({ success: false, message: "ID already exists" });
     }
     const data = {
       email: req.body.email,
       password: req.body.password,
     };
     users.push(data);
-    res.status(200).send({ success: true, data });
+    res.status(200).json({ success: true, data });
   } catch (err) {
-    next(500);
+    console.error(err);
+    res.status(500).json({ success: false, message: "Unexpected" });
   }
 }
 
