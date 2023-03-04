@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import users from "./models";
 
-export function register(req: Request, res: Response, next: NextFunction) {
+export function register(req: Request, res: Response) {
   try {
     const check = users.findIndex(({ email }) => email === req.body.email);
     if (check >= 0) {
@@ -21,9 +21,40 @@ export function register(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-export function viewProfile(req: Request, res: Response, next: NextFunction) {}
+export function viewProfile(req: Request, res: Response) {
+  try {
+    const data = users.find(({ email }) => email === req.params.id);
+    if (!data) {
+      return res
+        .status(400)
+        .json({ success: false, message: "email does not exist" });
+    }
+    res.status(200).json({ success: true, data });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Unexpected" });
+  }
+}
 
-export function unregister(req: Request, res: Response) {}
+export function unregister(req: Request, res: Response) {
+  try {
+    const targetIndex = users.findIndex(({ email }) => email === req.params.id);
+    if (targetIndex < 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "email does not exist" });
+    }
+    const popped = users.pop();
+    if (popped) {
+      users[targetIndex] = popped;
+      return res.status(200).json({ success: true, data: popped });
+    }
+    return res.status(400).json({ success: false, message: "zero user pool" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Unexpected" });
+  }
+}
 
 export function login(req: Request, res: Response) {}
 
