@@ -13,8 +13,12 @@ app.post("/users", (req, res) => {
   res.send("register");
 });
 
-app.delete("/users", (req, res) => {
-  res.send("unregister");
+app.get("/users/:id", (req, res) => {
+  res.send("view user profile by ID");
+});
+
+app.delete("/users/:id", (req, res) => {
+  res.send("unregister by ID");
 });
 
 app.post("/users/login", (req, res) => {
