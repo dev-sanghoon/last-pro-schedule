@@ -1,37 +1,18 @@
 import express from "express";
 import dotenv from "dotenv";
+import users from "./users/routes";
 
 dotenv.config();
 
 const app = express();
 
+app.use(express.json());
+
 app.get("/", (req, res) => {
   res.send("Hello Habitier");
 });
 
-app.post("/users", (req, res) => {
-  res.send("register");
-});
-
-app.get("/users/:id", (req, res) => {
-  res.send("view user profile by ID");
-});
-
-app.delete("/users/:id", (req, res) => {
-  res.send("unregister by ID");
-});
-
-app.post("/users/login", (req, res) => {
-  res.send("login");
-});
-
-app.post("/users/logout", (req, res) => {
-  res.send("logout");
-});
-
-app.post("/users/check", (req, res) => {
-  res.send("search registered & ID & password");
-});
+app.use("/users", users);
 
 app.listen(process.env.PORT, () => {
   console.log(`server on ${process.env.PORT}`);
