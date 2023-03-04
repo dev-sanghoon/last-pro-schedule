@@ -1,20 +1,24 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import users from "./models";
 
-export function register(req: Request, res: Response) {
+export function register(req: Request, res: Response, next: NextFunction) {
   try {
-    const { email, password } = req.body;
-    users.push({ email, password });
-    res.status(200).send({
-      success: true,
-      message: `${email} successfully registered`,
-    });
+    const check = users.findIndex(({ email }) => email === req.body.email);
+    if (check >= 0) {
+      return next(400);
+    }
+    const data = {
+      email: req.body.email,
+      password: req.body.password,
+    };
+    users.push(data);
+    res.status(200).send({ success: true, data });
   } catch (err) {
-    res.status(400).send(err);
+    next(500);
   }
 }
 
-export function viewProfile(req: Request, res: Response) {}
+export function viewProfile(req: Request, res: Response, next: NextFunction) {}
 
 export function unregister(req: Request, res: Response) {}
 
