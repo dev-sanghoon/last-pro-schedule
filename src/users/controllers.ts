@@ -1,29 +1,18 @@
-import { Request, Response, NextFunction } from "express";
-import users from "./models";
+import { Router } from "express";
+import * as user from "./services";
 
-export function register(req: Request, res: Response, next: NextFunction) {
-  try {
-    const check = users.findIndex(({ email }) => email === req.body.email);
-    if (check >= 0) {
-      return next(400);
-    }
-    const data = {
-      email: req.body.email,
-      password: req.body.password,
-    };
-    users.push(data);
-    res.status(200).send({ success: true, data });
-  } catch (err) {
-    next(500);
-  }
-}
+const route = Router();
 
-export function viewProfile(req: Request, res: Response, next: NextFunction) {}
+route.post("/", user.register);
 
-export function unregister(req: Request, res: Response) {}
+route.get("/:id", user.viewProfile);
 
-export function login(req: Request, res: Response) {}
+route.delete("/:id", user.unregister);
 
-export function logout(req: Request, res: Response) {}
+route.post("/login", user.login);
 
-export function findInfo(req: Request, res: Response) {}
+route.post("/logout", user.logout);
+
+route.post("/check", user.findInfo);
+
+export default route;

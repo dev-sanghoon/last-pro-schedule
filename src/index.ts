@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import users from "./users/routes";
+import users from "./users/controllers";
 
 dotenv.config();
 
