@@ -7,7 +7,7 @@ export function register(req: Request, res: Response, next: NextFunction) {
     if (check >= 0) {
       return res
         .status(400)
-        .json({ success: false, message: "ID already exists" });
+        .json({ success: false, message: "email already exists" });
     }
     const data = {
       email: req.body.email,
