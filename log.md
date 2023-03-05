@@ -1,6 +1,7 @@
 # 개발일지
 
 [2023-03-04](#2023-03-04)
+[2023-03-05](#2023-03-05)
 
 ## 2023-03-04
 
@@ -53,3 +54,15 @@ res.status(400).send({
 ```
 
 모든 route에서 굳이 status(400) 후 success: false가 포함된 객체를 보내는 코드를 작성할 필요는 없지 않은가.
+
+방법이 있을 듯 한데, 우선순위가 아닌 것 같아서 향후로 미뤘다.
+
+
+## 2023-03-05
+### mysql node 패키지에서 createConnection과 pool 사이의 차이점은 무엇인지?
+[Spring에서 설명(holax 님)](https://www.holaxprogramming.com/2013/01/10/devops-how-to-manage-dbcp/)에서 본 바, createConnection의 연산 비용이 커서 서버에서 db와 통신할 때 매번 커넥션을 실행하는 것이 아니라, 풀을 만들어놓고 그 풀을 계속해서 이용하는 듯 하다. Node.js에서는 어떤 방식으로 실행될 것인가?
+
+트래픽 증가 시 이슈가 될 것 같다. 서버를 확장할 때 DB만 확장하는지? 서버도 함께 확장하는지? 음... 향후에 신경써야 할 부분 같고. 중요한 사항은 pool에 연결하여 사용 후, release connection을 활용해야 pool limit이 exceed되지 않을 듯 하다.
+
+### typescript와의 충돌...
+Type 'RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader' is not assignable to type 'RowDataPacket[]'.
