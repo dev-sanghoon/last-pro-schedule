@@ -1,15 +1,24 @@
+import { RowDataPacket, FieldPacket } from "mysql2";
 import pool from "../db";
 
-export const findAll = async () => {
-  const [result] = await pool.query("SELECT email, name FROM Users");
+interface User extends RowDataPacket {
+  email: string;
+  password: string;
+  name: string;
+}
+
+export const findAll = async (): Promise<User[]> => {
+  const [result]: [User[], FieldPacket[]] = await pool.query(
+    "SELECT email, name FROM Users"
+  );
   if (Array.isArray(result) && result.length) {
     return result;
   }
   return [];
 };
 
-export const findOne = async (email: string) => {
-  const [result] = await pool.query(
+export const findOne = async (email: string): Promise<User[]> => {
+  const [result]: [User[], FieldPacket[]] = await pool.query(
     `SELECT email, name FROM Users WHERE email = "${email}"`
   );
   if (Array.isArray(result) && result.length) {
@@ -18,8 +27,8 @@ export const findOne = async (email: string) => {
   return [];
 };
 
-export const doExist = async (email: string) => {
-  const [result] = await pool.query(
+export const doExist = async (email: string): Promise<boolean> => {
+  const [result]: [User[], FieldPacket[]] = await pool.query(
     `SELECT 1 FROM Users WHERE email = "${email}" LIMIT 1`
   );
   if (Array.isArray(result)) {
