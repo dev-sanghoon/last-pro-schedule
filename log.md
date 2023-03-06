@@ -81,3 +81,7 @@ index.ts에서 db pool을 생성해서 export해주는 부분이 기형적으로
 ### typescript array destruction 시, empty array를 고려하지 않는 현상
 
 [intended - use compiler tag if needed](https://stackoverflow.com/questions/62135076/ts-will-not-infer-possible-undefined-when-destructuring-empty-array)
+
+### JWT issue
+
+[Good explanation with some flaws](https://stackoverflow.com/questions/32060478/is-a-refresh-token-really-necessary-when-using-jwt-token-authentication)
