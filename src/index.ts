@@ -1,16 +1,9 @@
-import express from "express";
 import dotenv from "dotenv";
-import users from "./users/controllers";
-import mysql from "mysql2/promise";
-
 dotenv.config();
 
-export const pool = mysql.createPool({
-  host: "localhost",
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: "habitier",
-});
+import express from "express";
+import users from "./users/controllers";
+import "./db";
 
 const app = express();
 
