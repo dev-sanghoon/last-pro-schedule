@@ -5,9 +5,8 @@ export async function register(req: Request, res: Response) {
   try {
     const exist = await users.doExist(req.body.email);
     if (exist) {
-      return res
-        .status(400)
-        .json({ success: false, message: "email already exists" });
+      res.status(400).json({ success: false, message: "email already exists" });
+      return;
     }
     const { email, password } = req.body;
     const name = req.body.name || req.body.email.split("@").shift();
@@ -34,9 +33,8 @@ export async function viewProfile(req: Request, res: Response) {
   try {
     const queried = await users.findOne(req.params.email);
     if (!queried.length) {
-      return res
-        .status(400)
-        .json({ success: false, message: "email does not exist" });
+      res.status(400).json({ success: false, message: "email does not exist" });
+      return;
     }
     res.status(200).json({ success: true, data: queried.pop() });
   } catch (err) {
@@ -49,9 +47,8 @@ export async function unregister(req: Request, res: Response) {
   try {
     const check = await users.doExist(req.params.email);
     if (!check) {
-      return res
-        .status(400)
-        .json({ success: false, message: "email does not exist" });
+      res.status(400).json({ success: false, message: "email does not exist" });
+      return;
     }
     await users.deleteOne(req.params.email);
     res.status(200).json({ success: true, data: { email: req.params.email } });
