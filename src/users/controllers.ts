@@ -1,20 +1,21 @@
 import { Router } from "express";
 import * as user from "./services";
+import auth from "../auth";
 
 const route = Router();
 
-route.get("/", user.viewAllUsers);
+route.get("/", auth, user.viewAllUsers);
 
 route.post("/", user.register);
 
 route.post("/login", user.login);
 
-route.post("/logout", user.logout);
+route.post("/logout", auth, user.logout);
 
 route.post("/check", user.findInfo);
 
-route.get("/:email", user.viewProfile);
+route.get("/:email", auth, user.viewProfile);
 
-route.delete("/:email", user.unregister);
+route.delete("/:email", auth, user.unregister);
 
 export default route;
