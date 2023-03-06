@@ -7,14 +7,14 @@ route.get("/", user.viewAllUsers);
 
 route.post("/", user.register);
 
-route.get("/:email", user.viewProfile);
-
-route.delete("/:email", user.unregister);
-
 route.post("/login", user.login);
 
 route.post("/logout", user.logout);
 
 route.post("/check", user.findInfo);
+
+route.get("/:email", user.viewProfile);
+
+route.delete("/:email", user.unregister);
 
 export default route;
