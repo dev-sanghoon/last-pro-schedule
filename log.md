@@ -2,6 +2,7 @@
 
 [2023-03-04](#2023-03-04)
 [2023-03-05](#2023-03-05)
+[2023-03-06](#2023-03-06)
 
 ## 2023-03-04
 
@@ -57,12 +58,22 @@ res.status(400).send({
 
 방법이 있을 듯 한데, 우선순위가 아닌 것 같아서 향후로 미뤘다.
 
-
 ## 2023-03-05
+
 ### mysql node 패키지에서 createConnection과 pool 사이의 차이점은 무엇인지?
+
 [Spring에서 설명(holax 님)](https://www.holaxprogramming.com/2013/01/10/devops-how-to-manage-dbcp/)에서 본 바, createConnection의 연산 비용이 커서 서버에서 db와 통신할 때 매번 커넥션을 실행하는 것이 아니라, 풀을 만들어놓고 그 풀을 계속해서 이용하는 듯 하다. Node.js에서는 어떤 방식으로 실행될 것인가?
 
 트래픽 증가 시 이슈가 될 것 같다. 서버를 확장할 때 DB만 확장하는지? 서버도 함께 확장하는지? 음... 향후에 신경써야 할 부분 같고. 중요한 사항은 pool에 연결하여 사용 후, release connection을 활용해야 pool limit이 exceed되지 않을 듯 하다.
 
-### typescript와의 충돌...
-Type 'RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader' is not assignable to type 'RowDataPacket[]'.
+## 2023-03-06
+
+### String LIKE vs '='
+
+1. collation을 주의해야 함. '='의 경우 다른 string임에도 불구하고 collation으로 인해 같은 string으로 판단되는 경우가 있음.
+2. 퍼포먼스의 경우 '='가 빠름.
+
+### db pool 생성 전에 dotenv.config()를 실행하고 싶은데...
+
+index.ts에서 db pool을 생성해서 export해주는 부분이 기형적으로 느껴져서, db pool 생성 코드를 다른 파일로 분리했다. 그리고 index.ts에서 import 해주었는데, import 이후 `dotenv.config()`가 실행되어 오류가 발생하였다. db pool 생성 코드에 env를 사용하기 때문에...
+우선은 dotenv.config()를 해주고 import를 해주고 있으나, 여전히 기형적이라고 느낀다.
