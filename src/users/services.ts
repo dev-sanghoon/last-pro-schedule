@@ -1,23 +1,17 @@
 import { Request, Response } from "express";
-import {
-  readUserByEmail,
-  checkExistence,
-  createUser,
-  deleteUserByEmail,
-  readAllUsers,
-} from "./models";
+import * as users from "./models";
 
 export async function register(req: Request, res: Response) {
   try {
-    const check = await checkExistence(req.body.email);
-    if (check) {
+    const exist = await users.doExist(req.body.email);
+    if (exist) {
       return res
         .status(400)
         .json({ success: false, message: "email already exists" });
     }
     const { email, password } = req.body;
     const name = req.body.name || req.body.email.split("@").shift();
-    await createUser(email, password, name);
+    await users.createOne(email, password, name);
     res.status(200).json({ success: true, data: { email, name } });
   } catch (err) {
     console.error(err);
@@ -28,7 +22,7 @@ export async function register(req: Request, res: Response) {
 // use temporarily on devs
 export async function viewAllUsers(req: Request, res: Response) {
   try {
-    const data = await readAllUsers();
+    const data = await users.findAll();
     res.status(200).json({ success: true, data });
   } catch (err) {
     console.error(err);
@@ -38,7 +32,7 @@ export async function viewAllUsers(req: Request, res: Response) {
 
 export async function viewProfile(req: Request, res: Response) {
   try {
-    const queried = await readUserByEmail(req.params.id);
+    const queried = await users.findOne(req.params.email);
     if (!queried.length) {
       return res
         .status(400)
@@ -53,14 +47,14 @@ export async function viewProfile(req: Request, res: Response) {
 
 export async function unregister(req: Request, res: Response) {
   try {
-    const check = await checkExistence(req.params.id);
+    const check = await users.doExist(req.params.email);
     if (!check) {
       return res
         .status(400)
         .json({ success: false, message: "email does not exist" });
     }
-    await deleteUserByEmail(req.params.id);
-    res.status(200).json({ success: true, data: { email: req.params.id } });
+    await users.deleteOne(req.params.email);
+    res.status(200).json({ success: true, data: { email: req.params.email } });
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, message: "Unexpected" });

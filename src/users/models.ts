@@ -1,6 +1,6 @@
 import pool from "../db";
 
-export const readAllUsers = async () => {
+export const findAll = async () => {
   const [result] = await pool.query("SELECT email, name FROM Users");
   if (Array.isArray(result) && result.length) {
     return result;
@@ -8,7 +8,7 @@ export const readAllUsers = async () => {
   return [];
 };
 
-export const readUserByEmail = async (email: string) => {
+export const findOne = async (email: string) => {
   const [result] = await pool.query(
     `SELECT email, name FROM Users WHERE email = "${email}"`
   );
@@ -18,7 +18,7 @@ export const readUserByEmail = async (email: string) => {
   return [];
 };
 
-export const checkExistence = async (email: string) => {
+export const doExist = async (email: string) => {
   const [result] = await pool.query(
     `SELECT 1 FROM Users WHERE email = "${email}" LIMIT 1`
   );
@@ -28,7 +28,7 @@ export const checkExistence = async (email: string) => {
   throw new Error("Unexpected");
 };
 
-export const createUser = async (
+export const createOne = async (
   email: string,
   password: string,
   name: string
@@ -38,6 +38,6 @@ export const createUser = async (
   );
 };
 
-export const deleteUserByEmail = async (email: string) => {
+export const deleteOne = async (email: string) => {
   await pool.query(`DELETE FROM Users WHERE email = "${email}"`);
 };

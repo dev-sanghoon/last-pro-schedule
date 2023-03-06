@@ -7,9 +7,9 @@ route.get("/", user.viewAllUsers);
 
 route.post("/", user.register);
 
-route.get("/:id", user.viewProfile);
+route.get("/:email", user.viewProfile);
 
-route.delete("/:id", user.unregister);
+route.delete("/:email", user.unregister);
 
 route.post("/login", user.login);
 
