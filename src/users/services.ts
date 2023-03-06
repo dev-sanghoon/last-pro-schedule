@@ -90,6 +90,16 @@ export async function login(req: Request, res: Response) {
   }
 }
 
-export function logout(req: Request, res: Response) {}
+export function logout(req: Request, res: Response) {
+  try {
+    res
+      .append("Set-Cookie", `access_token=''; Path=/; Max-Age=0; HttpOnly`)
+      .status(200)
+      .json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Unexpected" });
+  }
+}
 
 export function findInfo(req: Request, res: Response) {}
