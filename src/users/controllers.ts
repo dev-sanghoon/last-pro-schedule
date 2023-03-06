@@ -3,6 +3,8 @@ import * as user from "./services";
 
 const route = Router();
 
+route.get("/", user.viewAllUsers);
+
 route.post("/", user.register);
 
 route.get("/:id", user.viewProfile);

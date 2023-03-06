@@ -1,19 +1,34 @@
-import { Request, Response, NextFunction } from "express";
-import users from "./models";
+import { Request, Response } from "express";
+import {
+  readUserByEmail,
+  checkExistence,
+  createUser,
+  deleteUserByEmail,
+  readAllUsers,
+} from "./models";
 
-export function register(req: Request, res: Response) {
+export async function register(req: Request, res: Response) {
   try {
-    const check = users.findIndex(({ email }) => email === req.body.email);
-    if (check >= 0) {
+    const check = await checkExistence(req.body.email);
+    if (check) {
       return res
         .status(400)
         .json({ success: false, message: "email already exists" });
     }
-    const data = {
-      email: req.body.email,
-      password: req.body.password,
-    };
-    users.push(data);
+    const { email, password } = req.body;
+    const name = req.body.name || req.body.email.split("@").shift();
+    await createUser(email, password, name);
+    res.status(200).json({ success: true, data: { email, name } });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Unexpected" });
+  }
+}
+
+// use temporarily on devs
+export async function viewAllUsers(req: Request, res: Response) {
+  try {
+    const data = await readAllUsers();
     res.status(200).json({ success: true, data });
   } catch (err) {
     console.error(err);
@@ -21,35 +36,31 @@ export function register(req: Request, res: Response) {
   }
 }
 
-export function viewProfile(req: Request, res: Response) {
+export async function viewProfile(req: Request, res: Response) {
   try {
-    const data = users.find(({ email }) => email === req.params.id);
-    if (!data) {
+    const queried = await readUserByEmail(req.params.id);
+    if (!queried.length) {
       return res
         .status(400)
         .json({ success: false, message: "email does not exist" });
     }
-    res.status(200).json({ success: true, data });
+    res.status(200).json({ success: true, data: queried.pop() });
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, message: "Unexpected" });
   }
 }
 
-export function unregister(req: Request, res: Response) {
+export async function unregister(req: Request, res: Response) {
   try {
-    const targetIndex = users.findIndex(({ email }) => email === req.params.id);
-    if (targetIndex < 0) {
+    const check = await checkExistence(req.params.id);
+    if (!check) {
       return res
         .status(400)
         .json({ success: false, message: "email does not exist" });
     }
-    const popped = users.pop();
-    if (popped) {
-      users[targetIndex] = popped;
-      return res.status(200).json({ success: true, data: popped });
-    }
-    return res.status(400).json({ success: false, message: "zero user pool" });
+    await deleteUserByEmail(req.params.id);
+    res.status(200).json({ success: true, data: { email: req.params.id } });
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, message: "Unexpected" });
