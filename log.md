@@ -77,3 +77,7 @@ res.status(400).send({
 
 index.ts에서 db pool을 생성해서 export해주는 부분이 기형적으로 느껴져서, db pool 생성 코드를 다른 파일로 분리했다. 그리고 index.ts에서 import 해주었는데, import 이후 `dotenv.config()`가 실행되어 오류가 발생하였다. db pool 생성 코드에 env를 사용하기 때문에...
 우선은 dotenv.config()를 해주고 import를 해주고 있으나, 여전히 기형적이라고 느낀다.
+
+### typescript array destruction 시, empty array를 고려하지 않는 현상
+
+[intended - use compiler tag if needed](https://stackoverflow.com/questions/62135076/ts-will-not-infer-possible-undefined-when-destructuring-empty-array)
