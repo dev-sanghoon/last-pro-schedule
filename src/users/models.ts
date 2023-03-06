@@ -3,8 +3,11 @@ import pool from "../db";
 
 interface User extends RowDataPacket {
   email: string;
-  password: string;
   name: string;
+}
+
+interface AuthInfo extends RowDataPacket {
+  password: string;
 }
 
 export const findAll = async (): Promise<User[]> => {
@@ -20,6 +23,16 @@ export const findAll = async (): Promise<User[]> => {
 export const findOne = async (email: string): Promise<User[]> => {
   const [result]: [User[], FieldPacket[]] = await pool.query(
     `SELECT email, name FROM Users WHERE email = "${email}"`
+  );
+  if (Array.isArray(result) && result.length) {
+    return result;
+  }
+  return [];
+};
+
+export const verifyPassword = async (email: string): Promise<AuthInfo[]> => {
+  const [result]: [AuthInfo[], FieldPacket[]] = await pool.query(
+    `SELECT password FROM Users WHERE email = "${email}"`
   );
   if (Array.isArray(result) && result.length) {
     return result;
