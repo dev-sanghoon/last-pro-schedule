@@ -149,4 +149,19 @@ export async function requestCode(req: Request, res: Response) {
   }
 }
 
-export function verifyCode(req: Request, res: Response) {}
+export async function verifyCode(req: Request, res: Response) {
+  try {
+    const exist = await users.findTempCode(req.body.email, req.body.code);
+    if (!exist) {
+      res
+        .status(400)
+        .json({ success: false, message: "matching email and code not found" });
+      return;
+    }
+    await users.removeTempCode(req.body.email);
+    res.status(200).json({ success: true, data: { email: req.body.email } });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Unexpected" });
+  }
+}

@@ -10,6 +10,11 @@ interface AuthInfo extends RowDataPacket {
   password: string;
 }
 
+interface Code extends RowDataPacket {
+  email: string;
+  code: string;
+}
+
 export const findAll = async (): Promise<User[]> => {
   const [result]: [User[], FieldPacket[]] = await pool.query(
     "SELECT email, name FROM Users"
@@ -62,4 +67,20 @@ export const createOne = async (
 
 export const deleteOne = async (email: string) => {
   await pool.query(`DELETE FROM Users WHERE email = "${email}"`);
+};
+
+export const findTempCode = async (
+  email: string,
+  code: string
+): Promise<boolean> => {
+  const statement = `SELECT 1 FROM PendUsers WHERE email = "${email}" AND code = "${code}"`;
+  const [result]: [Code[], FieldPacket[]] = await pool.query(statement);
+  if (Array.isArray(result)) {
+    return !!result.length;
+  }
+  throw new Error("Unexpected");
+};
+
+export const removeTempCode = async (email: string) => {
+  await pool.query(`DELETE FROM PendUsers WHERE email = "${email}"`);
 };
