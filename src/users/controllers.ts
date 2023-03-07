@@ -14,6 +14,8 @@ route.post("/logout", auth, user.logout);
 
 route.post("/check", user.findInfo);
 
+route.get("/verification/:email", user.verifyEmail);
+
 route.get("/:email", auth, user.viewProfile);
 
 route.delete("/:email", auth, user.unregister);

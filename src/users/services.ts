@@ -1,6 +1,8 @@
 import jsonwebtoken from "jsonwebtoken";
 import { Request, Response } from "express";
+import mailer from "nodemailer";
 import * as users from "./models";
+import db from "../db";
 
 export async function register(req: Request, res: Response) {
   try {
@@ -103,3 +105,46 @@ export function logout(req: Request, res: Response) {
 }
 
 export function findInfo(req: Request, res: Response) {}
+
+export async function verifyEmail(req: Request, res: Response) {
+  try {
+    if (
+      process.env.NODE_ENV === "development" &&
+      req.params.email !== process.env.DEV_MAIL
+    ) {
+      res.status(400).json({ success: false, message: "Wrong email receiver" });
+      return;
+    }
+
+    const transport = mailer.createTransport({
+      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.MAILER_EMAIL,
+        pass: process.env.MAILER_PASSWORD,
+      },
+    });
+    const verificationCode = Math.random().toString(36).slice(2);
+    const statement = [
+      `INSERT INTO PendUsers (email, code)`,
+      `VALUES("${req.params.email}", "${verificationCode}")`,
+      `ON DUPLICATE KEY UPDATE code="${verificationCode}"`,
+    ].join(" ");
+    await db.query(statement);
+
+    const { response, accepted, rejected } = await transport.sendMail({
+      from: `"Habitier" <${process.env.MAILER_EMAIL}>`,
+      to: req.params.email,
+      subject: "Authorization Code from Habitier!",
+      html: `<b>${verificationCode}</b>`,
+    });
+    res
+      .status(200)
+      .json({ success: true, data: { response, accepted, rejected } });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Unexpected" });
+  }
+}
