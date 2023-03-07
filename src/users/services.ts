@@ -106,11 +106,11 @@ export function logout(req: Request, res: Response) {
 
 export function findInfo(req: Request, res: Response) {}
 
-export async function verifyEmail(req: Request, res: Response) {
+export async function requestCode(req: Request, res: Response) {
   try {
     if (
       process.env.NODE_ENV === "development" &&
-      req.params.email !== process.env.DEV_MAIL
+      req.body.email !== process.env.DEV_MAIL
     ) {
       res.status(400).json({ success: false, message: "Wrong email receiver" });
       return;
@@ -129,14 +129,14 @@ export async function verifyEmail(req: Request, res: Response) {
     const verificationCode = Math.random().toString(36).slice(2);
     const statement = [
       `INSERT INTO PendUsers (email, code)`,
-      `VALUES("${req.params.email}", "${verificationCode}")`,
+      `VALUES("${req.body.email}", "${verificationCode}")`,
       `ON DUPLICATE KEY UPDATE code="${verificationCode}"`,
     ].join(" ");
     await db.query(statement);
 
     const { response, accepted, rejected } = await transport.sendMail({
       from: `"Habitier" <${process.env.MAILER_EMAIL}>`,
-      to: req.params.email,
+      to: req.body.email,
       subject: "Authorization Code from Habitier!",
       html: `<b>${verificationCode}</b>`,
     });
@@ -148,3 +148,5 @@ export async function verifyEmail(req: Request, res: Response) {
     res.status(500).json({ success: false, message: "Unexpected" });
   }
 }
+
+export function verifyCode(req: Request, res: Response) {}

@@ -14,7 +14,9 @@ route.post("/logout", auth, user.logout);
 
 route.post("/check", user.findInfo);
 
-route.get("/verification/:email", user.verifyEmail);
+route.post("/code/verify", user.verifyCode);
+
+route.post("/code/request", user.requestCode);
 
 route.get("/:email", auth, user.viewProfile);
 
