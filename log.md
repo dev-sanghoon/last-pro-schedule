@@ -3,6 +3,7 @@
 [2023-03-04](#2023-03-04)
 [2023-03-05](#2023-03-05)
 [2023-03-06](#2023-03-06)
+[2023-03-07](#2023-03-07)
 
 ## 2023-03-04
 
@@ -86,8 +87,14 @@ index.ts에서 db pool을 생성해서 export해주는 부분이 기형적으로
 
 [Good explanation with some flaws](https://stackoverflow.com/questions/32060478/is-a-refresh-token-really-necessary-when-using-jwt-token-authentication)
 
-## 2023-03-06
+## 2023-03-07
 
 ### private API 생성 방법
 
 예를 들어, 회원정보 인증을 위한 이메일 전송 기능을 구현했다고 하자. 만약 누구나 이 기능을 사용할 수 있다면 특정 유저에게 우리 서버의 API를 활용해서 수십개의 메일을 보낼 수 있다. (별다른 이유 없이 악의적으로) CORS로 막을 수 있는 부분이 있을 듯 한데, REST Client를 활용하면 막을 수 없는 것 아닌가?
+
+### mysql Timestamp
+
+[Timestamp: Automatic Initialization & update](https://dev.mysql.com/doc/refman/8.0/en/timestamp-initialization.html)
+
+`INSERT INTO PendUser (email, code) VALUES("aa@gm.com", "sdqqqwee") ON DUPLICATE KEY UPDATE email="aa@gm.com", code="sdqqqwee"`
