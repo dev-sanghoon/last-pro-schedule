@@ -4,8 +4,6 @@ import auth from "../auth";
 
 const route = Router();
 
-route.get("/", auth, user.viewAllUsers);
-
 route.post("/", user.register);
 
 route.post("/login", user.login);
