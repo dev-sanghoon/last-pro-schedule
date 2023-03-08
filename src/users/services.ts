@@ -93,8 +93,6 @@ export function logout(req: Request, res: Response) {
   }
 }
 
-export function findInfo(req: Request, res: Response) {}
-
 export async function requestCode(req: Request, res: Response) {
   try {
     if (

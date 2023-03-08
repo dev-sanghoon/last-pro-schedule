@@ -10,8 +10,6 @@ route.post("/login", user.login);
 
 route.post("/logout", auth, user.logout);
 
-route.post("/check", user.findInfo);
-
 route.post("/code/verify", user.verifyCode);
 
 route.post("/code/request", user.requestCode);
