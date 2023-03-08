@@ -11,8 +11,16 @@ export default async function (
       res.status(500).json({ success: false, message: "Unexpected" });
       return;
     }
-    await jwt.verify(req.cookies.access_token, process.env.JWT_SECRET);
-    next();
+    const payload = await jwt.verify(
+      req.cookies.access_token,
+      process.env.JWT_SECRET
+    );
+    if (typeof payload !== "string" && typeof payload.email === "string") {
+      req.currentUser = payload.email;
+      next();
+      return;
+    }
+    res.status(500).json({ success: false, message: "Unexpected" });
   } catch (err) {
     console.error(err);
     res

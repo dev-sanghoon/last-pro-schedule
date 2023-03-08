@@ -4,6 +4,7 @@
 [2023-03-05](#2023-03-05)
 [2023-03-06](#2023-03-06)
 [2023-03-07](#2023-03-07)
+[2023-03-08](#2023-03-08)
 
 ## 2023-03-04
 
@@ -98,3 +99,22 @@ index.ts에서 db pool을 생성해서 export해주는 부분이 기형적으로
 [Timestamp: Automatic Initialization & update](https://dev.mysql.com/doc/refman/8.0/en/timestamp-initialization.html)
 
 `INSERT INTO PendUser (email, code) VALUES("aa@gm.com", "sdqqqwee") ON DUPLICATE KEY UPDATE email="aa@gm.com", code="sdqqqwee"`
+
+## 2023-03-08
+
+### Passing value with middleware on typescript
+< 문제들 >
+1. `req.currentUser = payload.email`을 시도했을 때에는 에러가 발생
+Express에서 제공하는 Request 타입에는 currentUser가 존재하지 않기에 에러가 발생함.
+2. `Object.assign(req, { currentUser: payload.email })`에서는 에러가 발생하지 않음.
+그 자리에 발생하지 않는 것 뿐이지, currentUser을 사용하고픈 장소에서 해당 property를 호출하면 에러가 발생함. (Property '...' does not exist on type....)
+
+< 해결책들 >
+express-serve-static-core을 사용하는 방법과 커스텀 타입을 제공하는 방법이 있었다.
+
+express-serve-static-core의 경우, 문제가 쉽사리 해결되는 경향이 있었지만 코드의 엔트로피가 증가하는 느낌을 받았다. 
+
+따라서 커스텀 타입 파일을 제공하여 해결하였다.
+찾아본 바로는 tsconfig.json의 typeRoots나 types에 type definition을 추가해주어야 한다고 보았는데, 별다른 옵션 추가 없이 src 밑에 @types 폴더를 만들자 자동으로 추가되었다.
+
+
