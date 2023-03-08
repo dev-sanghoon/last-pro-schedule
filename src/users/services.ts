@@ -21,17 +21,6 @@ export async function register(req: Request, res: Response) {
   }
 }
 
-// use temporarily on devs
-export async function viewAllUsers(req: Request, res: Response) {
-  try {
-    const data = await users.findAll();
-    res.status(200).json({ success: true, data });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, message: "Unexpected" });
-  }
-}
-
 export async function viewProfile(req: Request, res: Response) {
   try {
     const queried = await users.findOne(req.params.email);
@@ -103,8 +92,6 @@ export function logout(req: Request, res: Response) {
     res.status(500).json({ success: false, message: "Unexpected" });
   }
 }
-
-export function findInfo(req: Request, res: Response) {}
 
 export async function requestCode(req: Request, res: Response) {
   try {
