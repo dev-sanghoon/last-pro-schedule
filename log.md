@@ -1,10 +1,11 @@
 # 개발일지
 
-[2023-03-04](#2023-03-04)
-[2023-03-05](#2023-03-05)
-[2023-03-06](#2023-03-06)
-[2023-03-07](#2023-03-07)
-[2023-03-08](#2023-03-08)
+[2023-03-04](#2023-03-04)  
+[2023-03-05](#2023-03-05)  
+[2023-03-06](#2023-03-06)  
+[2023-03-07](#2023-03-07)  
+[2023-03-08](#2023-03-08)  
+[2023-03-09](#2023-03-09)
 
 ## 2023-03-04
 
@@ -103,18 +104,32 @@ index.ts에서 db pool을 생성해서 export해주는 부분이 기형적으로
 ## 2023-03-08
 
 ### Passing value with middleware on typescript
+
 < 문제들 >
+
 1. `req.currentUser = payload.email`을 시도했을 때에는 에러가 발생
-Express에서 제공하는 Request 타입에는 currentUser가 존재하지 않기에 에러가 발생함.
+   Express에서 제공하는 Request 타입에는 currentUser가 존재하지 않기에 에러가 발생함.
 2. `Object.assign(req, { currentUser: payload.email })`에서는 에러가 발생하지 않음.
-그 자리에 발생하지 않는 것 뿐이지, currentUser을 사용하고픈 장소에서 해당 property를 호출하면 에러가 발생함. (Property '...' does not exist on type....)
+   그 자리에 발생하지 않는 것 뿐이지, currentUser을 사용하고픈 장소에서 해당 property를 호출하면 에러가 발생함. (Property '...' does not exist on type....)
 
 < 해결책들 >
 express-serve-static-core을 사용하는 방법과 커스텀 타입을 제공하는 방법이 있었다.
 
-express-serve-static-core의 경우, 문제가 쉽사리 해결되는 경향이 있었지만 코드의 엔트로피가 증가하는 느낌을 받았다. 
+express-serve-static-core의 경우, 문제가 쉽사리 해결되는 경향이 있었지만 코드의 엔트로피가 증가하는 느낌을 받았다.
 
 따라서 커스텀 타입 파일을 제공하여 해결하였다.
 찾아본 바로는 tsconfig.json의 typeRoots나 types에 type definition을 추가해주어야 한다고 보았는데, 별다른 옵션 추가 없이 src 밑에 @types 폴더를 만들자 자동으로 추가되었다.
 
+## 2023-03-09
 
+### node js 모니터링하기
+
+Node.js의 성능은 좋은 편이나, Java의 스프링과 비교해서는 비동기 I/O 때문에 문제의 원인을 찾기 힘들다고 한다.
+
+### artillery vs. autocannon
+
+artillery를 설치했을 때, npm에서 수많은 deprecated 로그가 떴다. 유지보수가 잘 되지 않는구나 하는 느낌이 들었다. 반면 autocannon은 설치 속도도 빠르고, depecated 에러 또한 뜨지 않았다. 그래서 autocannon을 먼저 시도해보게 되었는데, 왠걸 typescript 지원이 제대로 되지 않고 있었다. autocannon(메인함수)에 옵션을 전달해주는데, 복수의 request를 보낼 때 앞선 request의 데이터를 사용할 수 있게 해주는 onResponse라는 메소드가 있다. 그런데 이 메소드가 타입스크립트 지원이 제대로 안되는 것 아닌가... 깃허브 이슈에도 없고. 이유를 모르겠다.
+
+### express status monitor의 사용
+
+일반적으로 사용되는 모니터링 프로그램은 아닌 것 같지만, 아직 모니터링에 익숙하지 않은 나로서는 쓰기 편하여 사용해보게 되었다.
