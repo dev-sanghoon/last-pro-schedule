@@ -3,10 +3,13 @@ dotenv.config();
 
 import express from "express";
 import cookieParser from "cookie-parser";
+import monitor from "express-status-monitor";
 import users from "./users/controllers";
 import "./db";
 
 const app = express();
+
+app.use(monitor());
 
 app.use(express.json());
 app.use(cookieParser());
