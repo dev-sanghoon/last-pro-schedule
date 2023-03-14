@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
+import * as users from "./users/models";
 
 export default async function (
   req: Request,
@@ -15,7 +16,19 @@ export default async function (
       res.status(401).json({ success: false, message: "Unauthorized" });
       return;
     }
-    await jwt.verify(req.cookies.access_token, process.env.JWT_SECRET);
+    const verified = jwt.verify(
+      req.cookies.access_token,
+      process.env.JWT_SECRET
+    );
+    if (typeof verified === "string" || typeof verified.email !== "string") {
+      res.status(401).json({ success: false, message: "Unauthorized" });
+      return;
+    }
+    const queried = await users.doExist(verified.email);
+    if (!queried) {
+      res.status(401).json({ success: false, message: "Unauthorized" });
+      return;
+    }
     next();
   } catch (err) {
     req.log.error(err);
