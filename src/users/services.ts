@@ -113,7 +113,7 @@ export async function requestCode(req: Request, res: Response) {
       },
     });
     const verificationCode = Math.random().toString(36).slice(2);
-    await users.saveTempCode(req.body.email, verificationCode);
+    users.saveTempCode(req.body.email, verificationCode);
 
     const { response, accepted, rejected } = await transport.sendMail({
       from: `"Habitier" <${process.env.MAILER_EMAIL}>`,
