@@ -84,3 +84,12 @@ export const findTempCode = async (
 export const removeTempCode = async (email: string) => {
   await pool.query(`DELETE FROM PendUsers WHERE email = "${email}"`);
 };
+
+export const saveTempCode = async (email: string, code: string) => {
+  const statement = [
+    `INSERT INTO PendUsers (email, code)`,
+    `VALUES("${email}", "${code}")`,
+    `ON DUPLICATE KEY UPDATE code="${code}"`,
+  ].join(" ");
+  await pool.query(statement);
+};
