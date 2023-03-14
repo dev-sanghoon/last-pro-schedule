@@ -2,7 +2,6 @@ import jsonwebtoken from "jsonwebtoken";
 import { Request, Response } from "express";
 import mailer from "nodemailer";
 import * as users from "./models";
-import db from "../db";
 
 export async function register(req: Request, res: Response) {
   try {
@@ -114,12 +113,7 @@ export async function requestCode(req: Request, res: Response) {
       },
     });
     const verificationCode = Math.random().toString(36).slice(2);
-    const statement = [
-      `INSERT INTO PendUsers (email, code)`,
-      `VALUES("${req.body.email}", "${verificationCode}")`,
-      `ON DUPLICATE KEY UPDATE code="${verificationCode}"`,
-    ].join(" ");
-    await db.query(statement);
+    await users.saveTempCode(req.body.email, verificationCode);
 
     const { response, accepted, rejected } = await transport.sendMail({
       from: `"Habitier" <${process.env.MAILER_EMAIL}>`,
