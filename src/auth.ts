@@ -11,6 +11,10 @@ export default async function (
       res.status(500).json({ success: false, message: "Unexpected" });
       return;
     }
+    if (!req.cookies.access_token) {
+      res.status(401).json({ success: false, message: "Unauthorized" });
+      return;
+    }
     await jwt.verify(req.cookies.access_token, process.env.JWT_SECRET);
     next();
   } catch (err) {
