@@ -16,7 +16,7 @@ export async function register(req: Request, res: Response) {
     await users.createOne(email, password, name);
     res.status(200).json({ success: true, data: { email, name } });
   } catch (err) {
-    console.error(err);
+    req.log.error(err);
     res.status(500).json({ success: false, message: "Unexpected" });
   }
 }
@@ -30,7 +30,7 @@ export async function viewProfile(req: Request, res: Response) {
     }
     res.status(200).json({ success: true, data: queried.pop() });
   } catch (err) {
-    console.error(err);
+    req.log.error(err);
     res.status(500).json({ success: false, message: "Unexpected" });
   }
 }
@@ -45,7 +45,7 @@ export async function unregister(req: Request, res: Response) {
     await users.deleteOne(req.params.email);
     res.status(200).json({ success: true, data: { email: req.params.email } });
   } catch (err) {
-    console.error(err);
+    req.log.error(err);
     res.status(500).json({ success: false, message: "Unexpected" });
   }
 }
@@ -76,7 +76,7 @@ export async function login(req: Request, res: Response) {
       .status(500)
       .json({ success: false, message: "Might be wrong password" });
   } catch (err) {
-    console.error(err);
+    req.log.error(err);
     res.status(500).json({ success: false, message: "Unexpected" });
   }
 }
@@ -88,7 +88,7 @@ export function logout(req: Request, res: Response) {
       .status(200)
       .json({ success: true });
   } catch (err) {
-    console.error(err);
+    req.log.error(err);
     res.status(500).json({ success: false, message: "Unexpected" });
   }
 }
@@ -131,7 +131,7 @@ export async function requestCode(req: Request, res: Response) {
       .status(200)
       .json({ success: true, data: { response, accepted, rejected } });
   } catch (err) {
-    console.error(err);
+    req.log.error(err);
     res.status(500).json({ success: false, message: "Unexpected" });
   }
 }
@@ -148,7 +148,7 @@ export async function verifyCode(req: Request, res: Response) {
     await users.removeTempCode(req.body.email);
     res.status(200).json({ success: true, data: { email: req.body.email } });
   } catch (err) {
-    console.error(err);
+    req.log.error(err);
     res.status(500).json({ success: false, message: "Unexpected" });
   }
 }

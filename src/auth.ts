@@ -18,7 +18,7 @@ export default async function (
     await jwt.verify(req.cookies.access_token, process.env.JWT_SECRET);
     next();
   } catch (err) {
-    console.error(err);
+    req.log.error(err);
     res
       .status(500)
       .json({ success: false, message: "Error on handling token" });
