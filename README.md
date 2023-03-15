@@ -15,7 +15,7 @@
 사진: [Unsplash](https://unsplash.com/ko/%EC%82%AC%EC%A7%84/dpk17SKcGkc?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)의 [Ikhsan Sugiarto](https://unsplash.com/ko/@sanengineer?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)
 
 ## 아키텍처
-![habitier-arch](https://user-images.githubusercontent.com/59021306/225211325-87a5d17c-ab2c-4a45-953a-345f3880927f.jpg)
+![habitier-architecture](https://user-images.githubusercontent.com/59021306/225218550-e79c5b12-da09-4ffd-ad21-34b1ffe87782.jpg)
 
 ## 스택
 ![habitier-stack](https://user-images.githubusercontent.com/59021306/225215856-9c3fbd4d-9a62-4234-b5bd-7f09d39d627f.jpg)
