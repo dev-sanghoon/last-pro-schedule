@@ -6,7 +6,7 @@
 ## 프로토타입
 <img width="671" alt="habitier-prototype" src="https://user-images.githubusercontent.com/59021306/225210486-242a1425-8278-4896-b5ad-348ba779b3aa.png">
 
-[Unsplash](https://unsplash.com/ko/%EC%82%AC%EC%A7%84/dpk17SKcGkc?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)의 [Ikhsan Sugiarto](https://unsplash.com/ko/@sanengineer?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)
+사진: [Unsplash](https://unsplash.com/ko/%EC%82%AC%EC%A7%84/dpk17SKcGkc?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)의 [Ikhsan Sugiarto](https://unsplash.com/ko/@sanengineer?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)
 
 ## 구현된 기능
 - 회원가입 / 탈퇴
