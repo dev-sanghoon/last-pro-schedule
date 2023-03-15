@@ -18,7 +18,7 @@
 ![habitier-architecture](https://user-images.githubusercontent.com/59021306/225218550-e79c5b12-da09-4ffd-ad21-34b1ffe87782.jpg)
 
 ## 스택
-![habitier-stack](https://user-images.githubusercontent.com/59021306/225215856-9c3fbd4d-9a62-4234-b5bd-7f09d39d627f.jpg)
+![habitier-stack](https://user-images.githubusercontent.com/59021306/225219582-6bfff0bd-70c5-4af9-a738-392c4de2b253.jpg)
 
 ## ERD
 ![habitier-erd](https://user-images.githubusercontent.com/59021306/225216546-5cfa74e8-ff42-469a-9a0a-60de1747d32f.jpg)
