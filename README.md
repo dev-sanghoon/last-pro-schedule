@@ -17,6 +17,9 @@
 ## 아키텍처
 ![habitier-architecture](https://user-images.githubusercontent.com/59021306/225218550-e79c5b12-da09-4ffd-ad21-34b1ffe87782.jpg)
 
+[Watcher](https://github.com/dev-sanghoon/meerkat): pm2 process stop 시 메일을 보내주는 프로그램  
+[Load test](https://github.com/dev-sanghoon/fourth-fort): artillery를 활용한 부하 테스트  
+
 ## 스택
 ![habitier-stack](https://user-images.githubusercontent.com/59021306/225219582-6bfff0bd-70c5-4af9-a738-392c4de2b253.jpg)
 
